@@ -114,7 +114,7 @@ func TestSetStatus(t *testing.T) {
 	// получите добавленную посылку и убедитесь, что статус обновился
 	p, err := store.Get(number)
 	require.NoError(t, err)
-	require.Equal(t, p.Status, ParcelStatusSent)
+	require.Equal(t, ParcelStatusSent, p.Status)
 }
 
 // TestGetByClient проверяет получение посылок по идентификатору клиента
@@ -162,7 +162,9 @@ func TestGetByClient(t *testing.T) {
 	for _, parcel := range storedParcels {
 		// в parcelMap лежат добавленные посылки, ключ - идентификатор посылки, значение - сама посылка
 		// убедитесь, что все посылки из storedParcels есть в parcelMap
+		p, ok := parcelMap[parcel.Number]
+		require.Equal(t, true, ok)
 		// убедитесь, что значения полей полученных посылок заполнены верно
-		require.Equal(t, parcel, parcelMap[parcel.Number])
+		require.Equal(t, parcel, p)
 	}
 }
